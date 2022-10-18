@@ -3,9 +3,9 @@
 
 ## Requirements
 
-- Jetson Segmentation package   
-- ZED SDK  
-- ZED ROS Wrapper
+- ![Jetson Segmentation package](https://github.com/dusty-nv/jetson-inference)
+- ![ZED SDK](https://www.stereolabs.com/developers/release/)
+- ![ZED ROS Wrapper](https://github.com/stereolabs/zed-ros-wrapper)
 
 ## Code Flow:
 
