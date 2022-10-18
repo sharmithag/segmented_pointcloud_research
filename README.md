@@ -3,7 +3,9 @@
 
 ## Requirements
 
-Jetson Segmentation package   ZED SDK  ZED ROS Wrapper
+- Jetson Segmentation package   
+- ZED SDK  
+- ZED ROS Wrapper
 
 ## Code Flow:
 
