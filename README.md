@@ -1,10 +1,9 @@
 # segmented_pointcloud
 2d segmentation output used for point cloud processing
 
-## Required packages
+## Requirements
 
-Jetson Segmentation 
-ZED ROS Wrapper
+Jetson Segmentation package   ZED SDK  ZED ROS Wrapper
 
 ## Code Flow:
 
