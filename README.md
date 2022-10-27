@@ -4,11 +4,8 @@
 ## Requirements
 
 - [Jetson Segmentation package](https://github.com/dusty-nv/jetson-inference)
-- [ROS_SEGNET](https://github.com/dusty-nv/ros_deep_learning#ros_deep_learning-1)
 - [ZED SDK](https://www.stereolabs.com/developers/release/)
 - [ZED ROS Wrapper](https://github.com/stereolabs/zed-ros-wrapper)
-- [ZED ROS Interfaces](https://github.com/stereolabs/zed-ros-interfaces)
-
 
 ## Code Flow:
 
