@@ -1,0 +1,7 @@
+<launch>
+   
+   <include file="$(find zed_wrapper)/launch/zed2i.launch"/>
+         
+   <include file ="$(find ros_deep_learning)/launch/segnet.ros1.launch"/>
+
+</launch>
