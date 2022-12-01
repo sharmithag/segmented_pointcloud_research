@@ -1,6 +1,9 @@
 
 cmake_minimum_required(VERSION 3.5)
 project(pointcloud_process)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 
 link_directories(/usr/lib/aarch64-linux-gnu/tegra)
@@ -9,23 +12,15 @@ set(CMAKE_CXX_FLAGS "-std=c++11")
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_STANDARD 11)
 
-
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
-  std_msgs
-  tf
-  roslib
-  roslaunch
+roscpp
+sensor_msgs
+image_transport
+cv_bridge
+std_msgs
 )
-
-catkin_package()
-roslaunch_add_file_check(launch)
-
-include_directories(
-  ${catkin_INCLUDE_DIRS}
+catkin_package(
+    CATKIN_DEPENDS image_transport cv_bridge roscpp sensor_msgs
 )
-
-install(DIRECTORY  launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+add_executable(pcl_alter scripts/pcl_alter.cpp)
+target_link_libraries(pcl_alter ${catkin_LIBRARIES} OpenCV)
