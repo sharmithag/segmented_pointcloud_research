@@ -22,5 +22,6 @@ std_msgs
 catkin_package(
     CATKIN_DEPENDS image_transport cv_bridge roscpp sensor_msgs
 )
+include_directories(${catkin_INCLUDE_DIRS})
 add_executable(pcl_alter scripts/pcl_alter.cpp)
-target_link_libraries(pcl_alter ${catkin_LIBRARIES} OpenCV)
+target_link_libraries(pcl_alter ${catkin_LIBRARIES})
