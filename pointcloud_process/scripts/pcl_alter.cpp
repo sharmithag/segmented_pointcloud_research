@@ -1,37 +1,41 @@
-#include "ros/ros.h"
+#include <ros/ros.h>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
+#include <pcl_ros/point_cloud.h>
+#include <pcl/point_types.h>
+#include <boost/foreach.hpp>
 #include <sensor_msgs/image_encodings.h>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <message_filters/subscriber.h>
+#include <message_filters/time_synchronizer.h>
 
-static const std::string OPENCV_WINDOW = "Image window";
 
-class ImageConverter
+class pcl_processor
 {
   ros::NodeHandle nh_;
-  image_transport::ImageTransport it_;
-  image_transport::Subscriber image_sub_;
-  image_transport::Publisher image_pub_;
+
+  typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
 public:
-  ImageConverter()
-    : it_(nh_)
+  pcl_processor()
+    : nh_
   {
-    // Subscrive to input video feed and publish output video feed
-    image_sub_ = it_.subscribe("/segnet/color_mask", 1,
-      &ImageConverter::imageCb, this);
-    image_pub_ = it_.advertise("/image_converter/output_video", 1);
-
-    cv::namedWindow(OPENCV_WINDOW);
+    // Subscribe to segmented mask and zed_pointcloud
+    message_filters::Subscriber<sensor_msgs::Image> image_sub(nh_,"/segnet/color_mask", 1);
+    message_filters::Subscriber<PointCloud> pcl_sub(nh_,"/zed2i/zed_node/point_cloud/cloud_registered", 1);
+    
+    message_filters::TimeSynchronizer<Image, PointCloud> sync(image_sub, pcl_sub, 10);
+    sync.registerCallback(boost::bind(&callback, _1, _2));
+    //ros::Publisher pcl_pub = nh_.advertise<PointCloud> ("processed_points", 1);
   }
 
-  ~ImageConverter()
+  ~pcl_processor()
   {
-    cv::destroyWindow(OPENCV_WINDOW);
+    
   }
 
-  void imageCb(const sensor_msgs::ImageConstPtr& msg)
+  void callback(const sensor_msgs::ImageConstPtr& msg,const PointCloud::ConstPtr& msg2)
   {
     cv_bridge::CvImagePtr cv_ptr;
     try
@@ -43,24 +47,27 @@ public:
       ROS_ERROR("cv_bridge exception: %s", e.what());
       return;
     }
+    // Compare seg image and pointcloud
+    int count = 0;
+    for (int i =0; i< cv_ptr-> image.rows; i++){
+    for (int j =0; j< cv_ptr->image.cols; j++){
+    count = count +1
+    if( (cv_ptr->image[i][j][0] ==107 && cv_ptr->image[i][j][1]== 142 && cv_ptr->image[i][j][2]== 35 && cv_ptr->image[i][j][3]== 255) || (cv_ptr->image[i][j][0] ==152 && cv_ptr->image[i][j][1]== 251 && cv_ptr->image[i][j][2]== 152 && cv_ptr->image[i][j][3]== 255)) {
 
-    // Draw an example circle on the video stream
-    if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
-      cv::circle(cv_ptr->image, cv::Point(50, 50), 10, CV_RGB(255,0,0));
-
-    // Update GUI Window
-    cv::imshow(OPENCV_WINDOW, cv_ptr->image);
-    cv::waitKey(3);
-
-    // Output modified video stream
-    image_pub_.publish(cv_ptr->toImageMsg());
+   
+    printf ("Cloud: width = %d, height = %d\n", msg2->width, msg2->height);
+    BOOST_FOREACH (const pcl::PointXYZ& pt, msg2->points)
+    printf ("\t(%f, %f, %f)\n", pt.x[count], pt.y[count], pt.z[count]);
+    }}}
+    
   }
+
 };
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "image_converter");
-  ImageConverter ic;
+  ros::init(argc, argv, "pcl_process");
+  pcl_processor pp;
   ros::spin();
   return 0;
 }
