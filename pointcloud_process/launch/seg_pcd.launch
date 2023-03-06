@@ -4,7 +4,7 @@
          
    <include file ="$(find ros_deep_learning)/launch/segnet.ros1.launch"/>
 
-   <node pkg = "pointcloud_process" name ="pcl_alter" type = "pcl_alter" output="screen"/>
+   <node pkg = "pointcloud_process" name ="rezoom" type = "rezoom" output="screen"/>
 
 
 </launch>
