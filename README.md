@@ -9,7 +9,7 @@ All samples taken inside the University of Maryland,CP.
 
 ### ReZoom 2.0
 
-![PXL_20220624_230419846](https://user-images.githubusercontent.com/90351952/191350972-240d0441-c8f3-4768-9f51-ddfad16f2b57.jpg)
+<img src="https://user-images.githubusercontent.com/90351952/191350972-240d0441-c8f3-4768-9f51-ddfad16f2b57.jpg" width="300" height="400">
 
 ### Semantic segmentation Overlay and Mask(Using cityscape dataset)
 
