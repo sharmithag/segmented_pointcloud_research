@@ -3,6 +3,8 @@
 ReZoom E-Scooter
 https://github.com/REZOOM-UMD/escooter/tree/dev_mi
 
+Our ReZoom team under Dr.Derek Paley's guidance received Grant Challenge award.[Click here!](https://research.umd.edu/urban-mobility)
+
 Semantic segmentation of the e-scooter(ReZoom 2.0 and 3.0) pathway to distinguish road from sidewalk and grass using Jetson Developer Kit and ZED stereo camera.
 
 All samples taken inside the University of Maryland,CP.
